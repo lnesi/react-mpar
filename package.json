@@ -1,7 +1,7 @@
 {
-  "name": "ibm-mpa-react-render",
+  "name": "react-mpar",
   "version": "1.0.0",
-  "description": "IBM Multipage React render",
+  "description": "React MRR: ReactMultipage React Render",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,9 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.ibm.com:Luis-Nesi/ibm-mpa-react-render.git"
+    "url": "git@github.com:lnesi/react-mpar.git"
   },
-  "author": "Luis Nesi <luis.nesi@ibm.com>",
+  "author": "Luis Nesi <nesi.luis@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "js-base64": "^2.5.1",
