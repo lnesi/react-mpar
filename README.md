@@ -1,1 +1,1 @@
-# ibm-mpa-react-render
+# IBM Multipage React Render
