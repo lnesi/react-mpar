@@ -1,5 +1,5 @@
 module.exports = {
-    entry: './src/Renderer.js',
+    entry: './src/ReactMPAR.js',
     module: {
         rules: [{
             test: /\.(js|jsx)$/,

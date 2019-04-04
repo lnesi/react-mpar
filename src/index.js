@@ -1,4 +1,4 @@
-import ReactReduxRenderer from './Renderer';
+import ReactMPAR from './ReactMPAR';
 import TestComponent from './TestComponent';
 
 const dictionary = {
@@ -11,8 +11,6 @@ const dictionary = {
     },
 };
 
-
-
-const renderer=new ReactReduxRenderer(".test_class_name",dictionary,document);
+const renderer=new ReactMPAR(".test_class_name",dictionary,document);
 
 renderer.renderAll();
