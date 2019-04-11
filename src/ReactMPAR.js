@@ -56,12 +56,16 @@ export default class {
   }
 
   getWrapperById(id) {
-    let wrapper = this.document.getElementById(id);
-
-    if (wrapper) {
-      return wrapper;
+    if (id) {
+      let wrapper = this.document.getElementById(id);
+      if (wrapper) {
+        return wrapper;
+      } else {
+        throwError("Invalid wrapper ID. Could not find '" + id + "' in DOM.");
+        return null;
+      }
     } else {
-      throwError("Invalid wrapper ID. Could not find '" + id + "' in DOM.");
+      throwError("Invalid wrapper ID. is missing in the DOM.");
       return null;
     }
   }
