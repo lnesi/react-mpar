@@ -8,7 +8,12 @@ export default class {
     this.classSelector = classSelector;
     this.dictonary = dictonary;
     this.document = document;
-    this.document.reactReduxMPA = this;
+    if(this.document.react_mpar) {
+      this.document.react_mpar.push(this);
+    }else{
+      this.document.react_mpar=[this];
+    }
+    
   }
 
   createState(preloadedState) {
