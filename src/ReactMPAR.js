@@ -8,12 +8,11 @@ export default class {
     this.classSelector = classSelector;
     this.dictonary = dictonary;
     this.document = document;
-    if(this.document.react_mpar) {
+    if (this.document.react_mpar) {
       this.document.react_mpar.push(this);
-    }else{
-      this.document.react_mpar=[this];
+    } else {
+      this.document.react_mpar = [this];
     }
-    
   }
 
   createState(preloadedState) {
@@ -95,25 +94,29 @@ export default class {
   }
 
   render(definition, wrapper, props = {}, callback = () => {}) {
-    const Component = definition.class;
-    console.log("Rendering", wrapper.id);
-    if (definition.reduxEnabled) {
-      ReactDOM.render(
-        <Provider store={this.store}>
-          <Component id={wrapper.id} {...props} />
-        </Provider>,
-        wrapper,
-        callback
-      );
-    } else {
-      ReactDOM.render(
-        <React.Fragment>
-          <Component id={wrapper.id} {...props} />
-        </React.Fragment>,
-        wrapper,
-        callback
-      );
-    }
+    this.info("loading module",definition.name);
+   
+    definition.classLoader().then((result) => {
+      const Component = result.default;
+      this.info("Rendering", wrapper.id);
+      if (definition.reduxEnabled) {
+        ReactDOM.render(
+          <Provider store={this.store}>
+            <Component id={wrapper.id} {...props} />
+          </Provider>,
+          wrapper,
+          callback
+        );
+      } else {
+        ReactDOM.render(
+          <React.Fragment>
+            <Component id={wrapper.id} {...props} />
+          </React.Fragment>,
+          wrapper,
+          callback
+        );
+      }
+    });
   }
 
   renderAll() {
@@ -121,8 +124,8 @@ export default class {
       this.store.dispatch({ type: "REACT_REDUX_MPA_RENDER_ALL_START" });
     }
     document.dispatchEvent(new Event("REACT_REDUX_MPA_RENDER_ALL_START"));
-    console.time("React/Redux MPA Render Start");
-    console.log("React/Redux MPA Render Start");
+    console.time("React-mpar");
+    this.info("Render Start");
     if (this.document.querySelectorAll(this.classSelector).length > 0) {
       this.renderStep(0);
     } else {
@@ -134,8 +137,8 @@ export default class {
       this.store.dispatch({ type: "REACT_REDUX_MPA_RENDER_ALL_END" });
     }
     document.dispatchEvent(new Event("REACT_REDUX_MPA_RENDER_ALL_END"));
-    console.time("React/Redux MPA Render End");
-    console.log("React/Redux MPA Render End");
+    console.timeEnd("React-mpar");
+    this.info("Render finish.")
   }
   renderStep(index = 0) {
     const element = this.document.querySelectorAll(this.classSelector)[index];
@@ -160,12 +163,16 @@ export default class {
     this.unmount(id);
     this.mount(id);
   }
+
+  info(primaryMessage,secondaryMessage=''){
+    console.log("%c React-mpar "+"%c "+primaryMessage+" "+"%c "+secondaryMessage, 'background: blue;color:white;','font-weight: bold;','');
+  }
 }
 
 function throwError(message) {
   try {
     console.error(
-      "%c  React/Redux MPA Renderer ",
+      "%c  React-mpar ",
       "background: #0483d8; color: #fff",
       message
     );

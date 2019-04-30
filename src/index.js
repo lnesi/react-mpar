@@ -1,9 +1,9 @@
 import ReactMPAR from './ReactMPAR';
-import TestComponent from './TestComponent';
+//import TestComponent from './TestComponent';
 
 const dictionary = {
     TestComponent: {
-        class: TestComponent,
+        classLoader:()=>import("./TestComponent"),
         name: "Test React Component",
         description: "This is a standalone react component can be either a single funcitonal component or a complete SPA",
         reduxEnabled: false,
