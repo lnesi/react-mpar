@@ -83,8 +83,18 @@ export default class {
         if (wrapper.dataset.props) {
           props = JSON.parse(Base64.decode(wrapper.dataset.props));
         }
-
-        this.render(definition, wrapper, props, callback);
+        if (definition.classLoader) {
+          definition.classLoader().then(result => {
+            this.render(result.default, definition, wrapper, props, callback);
+          });
+          this.info("loading module", definition.name);
+        } else {
+          this.info(
+            "Notice:","no class loader, fallback to preloaded class for "+
+            definition.name
+          );
+          this.render(definition.class, definition, wrapper, props, callback);
+        }
       } else {
         throwError(
           "Invalid component. Could not find '" + wrapper.dataset.component
@@ -93,30 +103,25 @@ export default class {
     }
   }
 
-  render(definition, wrapper, props = {}, callback = () => {}) {
-    this.info("loading module",definition.name);
-   
-    definition.classLoader().then((result) => {
-      const Component = result.default;
-      this.info("Rendering", wrapper.id);
-      if (definition.reduxEnabled) {
-        ReactDOM.render(
-          <Provider store={this.store}>
-            <Component id={wrapper.id} {...props} />
-          </Provider>,
-          wrapper,
-          callback
-        );
-      } else {
-        ReactDOM.render(
-          <React.Fragment>
-            <Component id={wrapper.id} {...props} />
-          </React.Fragment>,
-          wrapper,
-          callback
-        );
-      }
-    });
+  render(Component, definition, wrapper, props = {}, callback = () => {}) {
+    this.info("Rendering", wrapper.id);
+    if (definition.reduxEnabled) {
+      ReactDOM.render(
+        <Provider store={this.store}>
+          <Component id={wrapper.id} {...props} />
+        </Provider>,
+        wrapper,
+        callback
+      );
+    } else {
+      ReactDOM.render(
+        <React.Fragment>
+          <Component id={wrapper.id} {...props} />
+        </React.Fragment>,
+        wrapper,
+        callback
+      );
+    }
   }
 
   renderAll() {
@@ -138,7 +143,7 @@ export default class {
     }
     document.dispatchEvent(new Event("REACT_REDUX_MPA_RENDER_ALL_END"));
     console.timeEnd("React-mpar");
-    this.info("Render finish.")
+    this.info("Render finish.");
   }
   renderStep(index = 0) {
     const element = this.document.querySelectorAll(this.classSelector)[index];
@@ -164,8 +169,18 @@ export default class {
     this.mount(id);
   }
 
-  info(primaryMessage,secondaryMessage=''){
-    console.log("%c React-mpar "+"%c "+primaryMessage+" "+"%c "+secondaryMessage, 'background: blue;color:white;','font-weight: bold;','');
+  info(primaryMessage, secondaryMessage = "") {
+    console.log(
+      "%c React-mpar " +
+        "%c " +
+        primaryMessage +
+        " " +
+        "%c " +
+        secondaryMessage,
+      "background: blue;color:white;",
+      "font-weight: bold;",
+      ""
+    );
   }
 }
 
