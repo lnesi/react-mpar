@@ -83,7 +83,7 @@ export default class {
         if (wrapper.dataset.props) {
           props = JSON.parse(Base64.decode(wrapper.dataset.props));
         }
-        if (definition.classLoader) {
+        if (definition.classLoader!==undefined) {
           definition.classLoader().then(result => {
             this.render(result.default, definition, wrapper, props, callback);
           });
