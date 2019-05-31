@@ -1,3 +1,5 @@
+
+
 # React MPAR: React Multipage Application Renderer
 
 ### Context
@@ -5,6 +7,13 @@
 A very common problem in modern frontend development with react is how to achieve progressive enhancement on sites or web apps where legacy CMS's or web platforms are in place. This is particularly challenging because we need to synchronize server-side alien render from backend with front end rendering with react. At the same time, it may be in the interest of the project to allow the coexistence of legacy server-side rendered (SSR) content from backend with interactive frontend rendered content.
 
 A very common approach to bringing a solution to this problem is [web components](https://www.webcomponents.org/). In a nutshell, web components leverage custom XHTML tags in order to generate micro frontend applications that enhance the standard capabilities of a site with "custom reusable smart/complex components". Is important to clarify that the reusability and complexity aspects of these components may depend on backend services to be put in place so these will not be straight forward that you may expect, however, will enable the inclusion of modern frontend frameworks like react and all its ecosystem/community.
+
+## TODO
+- Create build for SSR
+- Determine how to share both React in the same library
+- Document SSR do not use Async to simplify
+- demo SSR with JSDOM
+- document SSR process
 
 ## How it works?
 In order to understand how React-MPAR works please consider the following graph.

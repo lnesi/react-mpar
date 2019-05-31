@@ -5,6 +5,7 @@
 	},
 	"bundles": [{
 		"name": "example-bundle",
-		"path": "src/bundles/example-bundle-entry.js"
+		"path": "src/bundles/example-bundle-entry.js",
+		"pathSSR": "src/bundles/example-bundle-entry-ssr.js"
 	}]
 }
