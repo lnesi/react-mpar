@@ -101,11 +101,74 @@ reactMPAR.setStore(store);
 reactMPAR.renderAll();
 ```
 
-## Concepts
-[TODO]
-##### Dictonaries
-##### Bundles/libraries
-##### Controller Class
+## Documentation
+#### Controller Class
+A controller class is a css class name that will be added to all the html element (ideally divs)  elements into the HTML page/dom that will then be scanned by React-MPAR to then treat them has a target element.
+
+#### Target Element
+A target element is HTML element (ideally divs) which has the following attributes:
+**Mandatory**
+- **id**: a CMS or web platform generated unique id in the dom. HAS TO BE UNIQUE not 2 elements in the same dom can have the same id.
+- **class:** the controller class which makes the HTML element into a React-MPAR target element. An additionals classes can be added for CSS presentation.
+- **data-component**: Component name to be mounted. This one has to exist into the root props of the dictionary object.
+- **data-props**: This is the initial props from the CMS or Web Platform, is a base64 encoded string of a serialized JSON object that will contain the initial payload of props that will get passed to the component for rendering. This props is mandatory at least with an empty object `'{}' //ENCODED-> 'e30='`
+
+**Optional**
+
+- **data-state:** Only required if a state is required to be passed from backend and the createState is set to true in the dictionary. Same has props this is a base64 encoded string of a serialized JSON object that will contain the initial payload to be used as an initial preloaded state very useful to pass backend driven sessions data.
+
+#### Dictonaries
+A dictionary is a list of components available to the React-MPAR rendered that can be mount into a page into the target element. The dictionary is defined as a static JS object where each of the root properties will be the name of the component to be used into the data-component attribute.
+
+There are 2 main types of components sync components which are imported to the dictionary as a normal ES6 import and will be bundled together into the bundle/lib entry point of the webpack build process. The other type will are async components, this will leverage the [webpack dynamic import](https://webpack.js.org/guides/code-splitting#dynamic-imports) functionality to auto-split this component into a separated chunk so this js/css asset is only loaded if the component has to be rendered into the page.
+
+You can differentiate these 2 types of components in the below example of a dictionary where the sync component uses the class property and the component creator class/function for react is mapped directly to it. In the other hand for async components, the **import** function is mapped to the property classLoader.
+
+**Important**: Do not use class and classLoader together into a definition of the same component only one at any giving time per component can be used.
+
+
+```js
+const dictionary = {
+    AsyncTestComponent: {
+        classLoader:()=>import("./AsyncTestComponent"),
+        name: "Async Test React Component",
+        description: "This is a standalone react component can be either a single funcitonal component or a complete SPA",
+        reduxEnabled: false,
+        createState: false,
+    },
+    TestComponent: {
+        class:TestComponent,
+        name: "Test React Component",
+        description: "This is a standalone react component can be either a single funcitonal component or a complete SPA",
+        reduxEnabled: false,
+        createState: false,
+    },
+};
+```
+
+- **class**: React class component or functional component, the component has to be imported into the dictionary file before defining the object.
+**or**
+- **classLoader (es6 import function)** pointing to the relative path of the  React class component or functional component .js file.
+
+In addition to the most important property class/classLoader, there are other mandatory props that are required to be defined:
+
+- **name (string)** This is a human-readable name of the component.
+
+- **description (string)** This is a human-readable description of the component
+
+These two properties are not used directly at runtime, however, can be used to pass to a wrapper only available within the editor env of the CMS or Web platform.
+
+- **reduxEnabled (bool)** determine if redux is enabled to the component, if true this will wrap the instance of the rendered component with the react-redux Provider component and pass the React-MPAR previously set store. **Important:** Please be aware that only 1 instance of each component can be added to the page if redux is enabled unless you do your own centralize state implementation or you can share the same root level entry for all the instance of the component on the page.
+
+- **createState (bool)** determines if an initial state has to be created. If true React-MPAR will decode data-state attribute and create an entry into the state with the component name. If this createState is true reduxEnables needs to also be true but not mandatory you can have createState false with reduxEnable true if there is no need for an initial state. Example:
+```
+{
+    TestComponent: {...DECODED_JSON_STATE}
+}
+```
+
+#### Bundles/libraries
+
 
 ## DevOps and Integrations
 React MPAR is designed to integrate seamlessly with any standard react template or accelerator like [Facebook Create React App](https://facebook.github.io/create-react-app/docs/getting-started). This applications template leverage webpack engine for transpiling JSX and bundling (js/css) artifacts that can be then deployed into your website via any applicable  method depending on the use case; like static CDN, external libraries ([Drupal](https://www.drupal.org/docs/8/theming/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-theme)/[Wordpress](https://developer.wordpress.org/themes/basics/including-css-javascript/)), [clientlibs](http://blogs.adobe.com/experiencedelivers/experience-management/clientlibs-explained-example/) (AEM), Commerce Platforms like [Magento](https://devdocs.magento.com/guides/v2.3/javascript-dev-guide/javascript/custom_js.html)  etc.
