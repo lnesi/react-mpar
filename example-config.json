@@ -1,0 +1,10 @@
+{
+	"libraryName":"example-react-mpar",
+	"paths": {
+		"serverRoot": "/"
+	},
+	"bundles": [{
+		"name": "example-bundle",
+		"path": "src/bundles/example-bundle-entry.js"
+	}]
+}
