@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+
+    <title>React Components App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.3/ace.js" integrity="sha256-NLPE2EQpOtxTAUB/jxjM97jsGmVQopiX8ceHySHhXs8=" crossorigin="anonymous"></script>
+    <script src="vendor/js/base64.js"></script>
+  </head>
+  <style type="text/css" media="screen">
+    #editor {
+
+        width:100%;
+        height: 400px;
+    }
+    #result{
+      width:100%;
+        height: 200px;
+    }
+</style>
+  <body class="container-fluid">
+    <h1>React-MPAR Base64 Generator</h1>
+    <div id="editor">{}</div>
+
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+
+      <a class="navbar-brand" href="#">Tools</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+        <li class="active"><a href="#" class="" onclick="generateBase64()">Generate Data Attribute <i class="glyphicon glyphicon-arrow-down"></i></a></li>
+        <li><a href="#" onclick="decodeBase64()">Decode Base 64 <i class="glyphicon glyphicon-arrow-up"></i></a></li>
+
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <textarea id="result" class="form-control"></textarea>
+    <script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/json");
+
+    function decodeBase64(){
+      var obj=Base64.decode(document.getElementById("result").value);
+      var json=JSON.parse(obj);
+
+      editor.setValue( JSON.stringify(json, null, '\t'));
+    }
+
+
+
+
+    function generateBase64(){
+      try{
+        var obj=JSON.parse(editor.getValue());
+        console.log(JSON.stringify(obj))
+        document.getElementById("result").value=Base64.encode(JSON.stringify(obj));
+      }catch(e){
+        alert("Invalid JSON or Character encoding issue (`)");
+      }
+    }
+
+    if(document.getElementById("result").value){
+      decodeBase64();
+    }
+</script>
+
+    </div>
+
+
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
