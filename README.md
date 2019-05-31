@@ -1,5 +1,4 @@
 # React MPAR: React Multipage Application Renderer
-*Athor:* [Luis E. Nesi M.](luis.nesi@ibm.com) @ [IBM](https://github.com/ibm)
 
 ### Context
 **Why React MPAR?**
@@ -140,6 +139,8 @@ const renderer=new ReactMPAR(".test_class_name",dictionary,document);
 renderer.renderAll();
 
 ```
+
+*Athor:* [Luis E. Nesi M.](luis.nesi@ibm.com) @ [IBM](https://github.com/ibm)
 
 ## Reference
 
