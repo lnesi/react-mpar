@@ -42,9 +42,9 @@ module.exports = {
         path: __dirname + '/demo-build-ssr',
         publicPath: publicPath,
         filename: '[name].js',
-        chunkFilename: '[name].js',
+        libraryTarget: 'commonjs2'
     },
-  
+
 
 
 };

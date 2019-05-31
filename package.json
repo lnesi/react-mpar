@@ -8,7 +8,8 @@
     "build": "webpack --mode production",
     "build-example": "webpack --config ./webpack-example.config.js --mode production ",
     "build-example:ssr": "webpack --config ./webpack-example-ssr.config.js --mode production ",
-    "start": "webpack-dev-server --config ./webpack-dev.config.js --mode development"
+    "dev": "webpack-dev-server --config ./webpack-dev.config.js --mode development",
+    "start-example": "node ./example-ssr-server/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,9 @@
   "author": "Luis Nesi <nesi.luis@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.1",
     "js-base64": "^2.5.1",
+    "jsdom": "^15.1.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",

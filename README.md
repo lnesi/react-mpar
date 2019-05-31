@@ -14,6 +14,9 @@ A very common approach to bringing a solution to this problem is [web components
 - Document SSR do not use Async to simplify
 - demo SSR with JSDOM
 - document SSR process
+- split docs into multiple files
+- document package.json scripts
+- unit test ReactMPAR
 
 ## How it works?
 In order to understand how React-MPAR works please consider the following graph.
