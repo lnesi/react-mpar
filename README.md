@@ -132,3 +132,26 @@ const renderer=new ReactMPAR(".test_class_name",dictionary,document);
 renderer.renderAll();
 
 ```
+
+## Reference
+
+### Graph Code
+The following code is meant to be use with [mermaid-live-editor](https://mermaidjs.github.io/mermaid-live-editor)
+
+```
+graph TD
+A[Browser] -->|1. Get Request /page.html| B[Alien server]
+B-->  C(Render Template and gather assets to serve)
+C-->|2,5 Serve content and Assets| A
+A-->|3.1 HTML Dom loaded| X(Browser to parse HTML patyload)
+A-->|3.2 JS Execution starts|D[react-mpar]
+D-->|6. Create Store|E(Iterate on HTML with .control-class to search for data-component)
+A -->|4. Additional Assets Get requested|B
+E-->F{Found in Dictonary}
+F-->|Yes| G[Gather data-state and add to initial state]
+G-->|Complete all components|H[ Create centralize Redux store]
+H-->|7. Initialize Render process|D
+D-->|8. Render Starts |E
+F-->|Yes|K[Mount Component In target HTML Element]
+K-->L[END]
+```
