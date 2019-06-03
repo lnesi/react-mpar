@@ -251,6 +251,9 @@ npm run demo:dev
 ### Build Demo front end SSR
 
 Including with the source code of React-MPAR there is a demo implementation. You can build the front end artifact for SSR in the demo folder. This will generate a node.js module that can then be imported into the express server to execute server side rendering. Important: This is a demo of an alternative approach for SSR with proxy, where traditional SSR cannot be achieve due to the fact that the glass is not own by react or node.js
+
+Is important to keep in mind this is POC on proxy SSR with express. The idea is to enable rendering before the cache layer on the web platform. This code has to be refactor and expanded upon implementation and use cases. Once start you can review a demo at http://localhost:8081/index.html
+
 ```
 yarn demo:build:ssr
 [or]
