@@ -38,11 +38,13 @@ module.exports = {
     resolve: {
         extensions: ['*', '.js', '.jsx']
     },
+    target: "node",
     output: {
         path: __dirname + '/demo/build',
         publicPath: publicPath,
         filename: 'ssr-bundle.js',
-        libraryTarget: 'commonjs2'
+        library: "module", //this will define the import
+        libraryTarget: "commonjs"
     },
 
 

@@ -1,7 +1,7 @@
 {
 	"libraryName":"example-react-mpar",
 	"paths": {
-		"serverRoot": "/"
+		"serverRoot": "/static/"
 	},
 	"bundles": [{
 		"name": "example-bundle",

@@ -116,7 +116,7 @@ export default class {
     if (this.store) {
       this.store.dispatch({ type: "REACT_REDUX_MPA_RENDER_ALL_START" });
     }
-    document.dispatchEvent(new Event("REACT_REDUX_MPA_RENDER_ALL_START"));
+    //document.dispatchEvent(new Event("REACT_REDUX_MPA_RENDER_ALL_START"));
     console.time("React-mpar");
     this.info("Render Start");
     if (this.document.querySelectorAll(this.classSelector).length > 0) {
@@ -129,7 +129,7 @@ export default class {
     if (this.store) {
       this.store.dispatch({ type: "REACT_REDUX_MPA_RENDER_ALL_END" });
     }
-    document.dispatchEvent(new Event("REACT_REDUX_MPA_RENDER_ALL_END"));
+    //document.dispatchEvent(new Event("REACT_REDUX_MPA_RENDER_ALL_END"));
     console.timeEnd("React-mpar");
     this.info("Render finish.");
   }

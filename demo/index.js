@@ -3,18 +3,23 @@ const express = require("express");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const path = require("path");
-const SSR_Renderer = require("./build/ssr-bundle.js").default;
+const SSR_Renderer = require("./build/ssr-bundle.js").module.default;
 
 
 function getURLFromBody(req,res,next){
   if (path.extname(req.url) === ".html") {
     try{
+
       const rawFile=fs.readFileSync(`./demo/public${req.url}`);
+
       res.body=rawFile;
       res.ssr=true;
-    }catch(e){}
+    }catch(e){
+      res.ssr=false;
+    }
+  }else{
+    res.ssr=false;
   }
-  res.ssr=false;
   next();
 }
 
@@ -27,10 +32,12 @@ function ServerSideRendering(req,res,next){
       const dom = new JSDOM(res.body.toString());
       SSR_Renderer(dom.window.document);
       res.body=Buffer.from(dom.serialize());
-      console.log(dom.window.document);
+      //console.log(dom.serialize());
       res.end(res.body);
+    }else{
+      next();
     }
-    next();
+
 }
 
 
