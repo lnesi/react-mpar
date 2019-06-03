@@ -9,13 +9,10 @@ A very common problem in modern frontend development with react is how to achiev
 A very common approach to bringing a solution to this problem is [web components](https://www.webcomponents.org/). In a nutshell, web components leverage custom XHTML tags in order to generate micro frontend applications that enhance the standard capabilities of a site with "custom reusable smart/complex components". Is important to clarify that the reusability and complexity aspects of these components may depend on backend services to be put in place so these will not be straight forward that you may expect, however, will enable the inclusion of modern frontend frameworks like react and all its ecosystem/community.
 
 ## TODO
-- Create build for SSR
-- Determine how to share both React in the same library
+
 - Document SSR do not use Async to simplify
-- demo SSR with JSDOM
 - document SSR process
 - split docs into multiple files
-- document package.json scripts
 - unit test ReactMPAR
 
 ## How it works?
@@ -194,7 +191,7 @@ In summary, any CMS or web platform can be integrated via their own ways of work
 ##### Entry Points (Split A)
 ##### Dynamic Imports Chunks (Split B)
 ##### Webpack Common Chunks (Split C)
-
+##### SSR workaround with JSDOM
 
 ## Demo usage
 ```
@@ -218,6 +215,58 @@ renderer.renderAll();
 
 ```
 *Athor:* [Luis E. Nesi M.](luis.nesi@ibm.com)
+
+
+## Documentation
+
+### Build React MPAR Library.
+
+This will allow the library to be buildt and share in other projects has package.json module.
+
+```
+yarn build
+[or]
+npm run build
+```
+
+### Start development React MPAR.
+
+For local development you can start a webpack dev server which will use the index.js entry point with the development dictonary. The server will become available at http://localhost:8080
+
+```
+yarn dev
+[or]
+npm run dev
+```
+
+### Build Demo front end
+
+Including with the source code of React-MPAR there is a demo implementation. You can build the front end artifact to then import in your own CMS. The must important here is to give a high level idea on how to use webpack and the concepts of bundles. This Script will build inside the demo folder into the static folder. The demo folder acts has a demo web server of an alien CMS or Web platform.
+```
+yarn demo:build
+[or]
+npm run demo:dev
+```
+
+### Build Demo front end SSR
+
+Including with the source code of React-MPAR there is a demo implementation. You can build the front end artifact for SSR in the demo folder. This will generate a node.js module that can then be imported into the express server to execute server side rendering. Important: This is a demo of an alternative approach for SSR with proxy, where traditional SSR cannot be achieve due to the fact that the glass is not own by react or node.js
+```
+yarn demo:build:ssr
+[or]
+npm run demo:build:ssr
+```
+
+### Start development server for ssr demo.
+
+Including with the source code of React-MPAR there is a demo implementation you can run a demo express implementation for server side rendering with JSDOM. This is potentially usefull to solutioning and alternative for SSR that sits in between the CMS or Web Platform and the CDN or presentation cache.
+```
+yarn demo:dev:ssr
+[or]
+npm run demo:dev:ssr
+```
+
+
 
 ## Reference
 

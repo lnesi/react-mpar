@@ -10,7 +10,6 @@
     "demo:dev:ssr": "nodemon ./demo/index.js",
     "demo:build": "webpack --config ./webpack-example.config.js --mode production ",
     "demo:build:ssr": "webpack --config ./webpack-example-ssr.config.js --mode production ",
-    "demo:server:ssr": "node ./demo/index.js"
   },
   "repository": {
     "type": "git",
