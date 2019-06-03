@@ -39,9 +39,9 @@ module.exports = {
         extensions: ['*', '.js', '.jsx']
     },
     output: {
-        path: __dirname + '/demo-build-ssr',
+        path: __dirname + '/demo/build',
         publicPath: publicPath,
-        filename: '[name].js',
+        filename: 'ssr-bundle.js',
         libraryTarget: 'commonjs2'
     },
 

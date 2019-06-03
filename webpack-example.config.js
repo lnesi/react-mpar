@@ -39,7 +39,7 @@ module.exports = {
         extensions: ['*', '.js', '.jsx']
     },
     output: {
-        path: __dirname + '/demo-build',
+        path: __dirname + '/demo/public/static',
         publicPath: publicPath,
         filename: '[name].js',
         chunkFilename: '[name].js',

@@ -6,10 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
-    "build-example": "webpack --config ./webpack-example.config.js --mode production ",
-    "build-example:ssr": "webpack --config ./webpack-example-ssr.config.js --mode production ",
     "dev": "webpack-dev-server --config ./webpack-dev.config.js --mode development",
-    "start-example": "node ./example-ssr-server/index.js"
+    "demo:dev:ssr": "nodemon ./demo/index.js",
+    "demo:build": "webpack --config ./webpack-example.config.js --mode production ",
+    "demo:build:ssr": "webpack --config ./webpack-example-ssr.config.js --mode production ",
+    "demo:server:ssr": "node ./demo/index.js"
   },
   "repository": {
     "type": "git",
@@ -34,10 +35,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "babel-loader": "^8.0.5",
+    "nodemon": "^1.19.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1"
