@@ -30,6 +30,9 @@ function ServerSideRendering(req,res,next){
       //console.log(res.body.toString());
       //console.log("SSR:",req.url);
       const dom = new JSDOM(res.body.toString());
+      //Mock dispatch event yo jsdom
+      dom.window.document.dispatchEvent=(eventName)=>{console.log("EVENT DISPATCHED "+eventName)};
+      //-----
       SSR_Renderer(dom.window.document);
       res.body=Buffer.from(dom.serialize());
       //console.log(dom.serialize());
@@ -37,11 +40,7 @@ function ServerSideRendering(req,res,next){
     }else{
       next();
     }
-
 }
-
-
-
 
 const app = express();
 
