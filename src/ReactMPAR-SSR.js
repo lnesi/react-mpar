@@ -1,15 +1,15 @@
 // @flow
 import { Base64 } from "js-base64";
 import React from "react";
-import ReactDOMServer from 'react-dom/server';
+import ReactDOMServer from "react-dom/server";
 import { Provider } from "react-redux";
 
 export default class {
-  classSelector:string;
-  dictonary:Object;
-  document:Object;
-  store:Object;
-  constructor(classSelector:string, dictonary:Object, document:Object) {
+  classSelector: string;
+  dictonary: Object;
+  document: Object;
+  store: Object;
+  constructor(classSelector: string, dictonary: Object, document: Object) {
     this.classSelector = classSelector;
     this.dictonary = dictonary;
     this.document = document;
@@ -20,7 +20,7 @@ export default class {
     }
   }
 
-  createState(preloadedState:Object):Object {
+  createState(preloadedState: Object): Object {
     var state = preloadedState;
     this.document.querySelectorAll(this.classSelector).forEach(wrapper => {
       let definition = this.dictonary[wrapper.dataset.component];
@@ -44,7 +44,7 @@ export default class {
   }
 
   /* To be implemented when we need to dispatch redux updates */
-  getStateBy(id:string) {
+  getStateBy(id: string) {
     let wrapper = this.getWrapperById(id);
     if (wrapper) {
       let stateEntry = {};
@@ -53,7 +53,7 @@ export default class {
     }
   }
 
-  getWrapperById(id:string) {
+  getWrapperById(id: string) {
     if (id) {
       let wrapper = this.document.getElementById(id);
       if (wrapper) {
@@ -68,7 +68,7 @@ export default class {
     }
   }
 
-  mount(id:string, callback:Function = () => {}) {
+  mount(id: string, callback: Function = () => {}) {
     let wrapper = this.getWrapperById(id);
     if (wrapper) {
       let definition = this.dictonary[wrapper.dataset.component];
@@ -77,15 +77,16 @@ export default class {
         if (wrapper.dataset.props) {
           props = JSON.parse(Base64.decode(wrapper.dataset.props));
         }
-        if (definition.classLoader!==undefined) {
+        if (definition.classLoader !== undefined) {
           definition.classLoader().then(result => {
             this.render(result.default, definition, wrapper, props, callback);
           });
           this.info("loading module", definition.name);
         } else {
           this.info(
-            "Notice:","no class loader, fallback to preloaded class for "+
-            definition.name
+            "Notice:",
+            "no class loader, fallback to preloaded class for " +
+              definition.name
           );
           this.render(definition.class, definition, wrapper, props, callback);
         }
@@ -97,17 +98,23 @@ export default class {
     }
   }
 
-  render(Component:Object, definition:Object, wrapper:Object, props:Object = {}, callback:Function = () => {}) {
+  render(
+    Component: Object,
+    definition: Object,
+    wrapper: Object,
+    props: Object = {},
+    callback: Function = () => {}
+  ) {
     this.info("Rendering", wrapper.id);
-    let renderedString='';
+    let renderedString = "";
     if (definition.reduxEnabled) {
-      renderedString=ReactDOMServer.renderToStaticMarkup(
+      renderedString = ReactDOMServer.renderToStaticMarkup(
         <Provider store={this.store}>
           <Component id={wrapper.id} {...props} />
         </Provider>
       );
     } else {
-      renderedString=ReactDOMServer.renderToStaticMarkup(
+      renderedString = ReactDOMServer.renderToStaticMarkup(
         <React.Fragment>
           <Component id={wrapper.id} {...props} />
         </React.Fragment>
@@ -138,7 +145,7 @@ export default class {
     console.timeEnd("React-mpar");
     this.info("Render finish.");
   }
-  renderStep(index:number = 0) {
+  renderStep(index: number = 0) {
     const element = this.document.querySelectorAll(this.classSelector)[index];
 
     this.mount(element.id, () => {
@@ -152,14 +159,12 @@ export default class {
       }
     });
   }
-  setStore(store:Object) {
+  setStore(store: Object) {
     this.store = store;
     this.store.dispatch({ type: "REACT_REDUX_MPA_RENDER_SET_STORE" });
   }
 
-
-
-  info(primaryMessage:string, secondaryMessage:string = "") {
+  info(primaryMessage: string, secondaryMessage: string = "") {
     console.log(
       "%c React-mpar " +
         "%c " +

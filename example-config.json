@@ -1,11 +1,13 @@
 {
-	"libraryName":"example-react-mpar",
-	"paths": {
-		"serverRoot": "/static/"
-	},
-	"bundles": [{
-		"name": "example-bundle",
-		"path": "src/bundles/example-bundle-entry.js",
-		"pathSSR": "src/bundles/example-bundle-entry-ssr.js"
-	}]
+  "libraryName": "example-react-mpar",
+  "paths": {
+    "serverRoot": "/static/"
+  },
+  "bundles": [
+    {
+      "name": "example-bundle",
+      "path": "src/bundles/example-bundle-entry.js",
+      "pathSSR": "src/bundles/example-bundle-entry-ssr.js"
+    }
+  ]
 }

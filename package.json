@@ -47,6 +47,7 @@
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
+    "flow-webpack-plugin": "^1.2.0",
     "nodemon": "^1.19.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
