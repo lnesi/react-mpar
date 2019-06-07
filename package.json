@@ -9,7 +9,7 @@
     "dev": "webpack-dev-server --config ./webpack-dev.config.js --mode development",
     "demo:dev:ssr": "nodemon ./demo/index.js",
     "demo:build": "webpack --config ./webpack-example.config.js --mode production ",
-    "demo:build:ssr": "webpack --config ./webpack-example-ssr.config.js --mode production ",
+    "demo:build:ssr": "webpack --config ./webpack-example-ssr.config.js --mode production "
   },
   "repository": {
     "type": "git",

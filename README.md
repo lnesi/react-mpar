@@ -179,6 +179,19 @@ A bundle or a library is going to be the entry point of our React-MPAR applicati
 
 React-MPAR example provides a demo of webpack pipeline `webpack-example.config.js` which uses 1 single bundle and shows a high-level process on how to build the front end artifacts. These artifacts have to be integrated manually has explained earlier in this document using the CMS or Web platform correspondent method (module, clientlibs, etc).
 
+## Centralize Store and redux
+
+One of the key aspects of React and modern frontend development in a Single Page Application is how easy is to integrate components and communicate between them base on user interactions via root or context. In a Web Components/Micro Frontend approach each component has its own root and in a way is isolated from the rest of the components present on the page. Especially on solutions where a page model is in the place where CMS or Web Platform content manager can determine which components with which content should appear on a given page.
+
+In order to achieve similar functionality with React Multi Page Application Renderer, we can leverage the principle of a centralized state with a redux store.
+
+![Redux Centrailized Store](centralize_store_flow.png)
+
+Like we can see on the image each component can connect to the store and dispatch an action that will mutate the centralize state and cause the re-render of any component dependant of that state that is connected to the centralized store.  
+
+Please take into consideration that the usage of Redux is just a recommended approach but is not a mandatory solution, any centralized state library like Mobx can be also implemented but will require a new React-MPAR fork to be refactor.
+
+
 ## DevOps and Integrations
 React MPAR is designed to integrate seamlessly with any standard react template or accelerator like [Facebook Create React App](https://facebook.github.io/create-react-app/docs/getting-started). This applications template leverage webpack engine for transpiling JSX and bundling (js/css) artifacts that can be then deployed into your website via any applicable  method depending on the use case; like static CDN, external libraries ([Drupal](https://www.drupal.org/docs/8/theming/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-theme)/[Wordpress](https://developer.wordpress.org/themes/basics/including-css-javascript/)), [clientlibs](http://blogs.adobe.com/experiencedelivers/experience-management/clientlibs-explained-example/) (AEM), Commerce Platforms like [Magento](https://devdocs.magento.com/guides/v2.3/javascript-dev-guide/javascript/custom_js.html)  etc.
 

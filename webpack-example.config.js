@@ -26,6 +26,7 @@ config.bundles.forEach(bundle => {
 });
 
 
+
 module.exports = {
     entry: entries,
     module: {
