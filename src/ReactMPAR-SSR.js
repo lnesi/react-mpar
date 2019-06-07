@@ -2,7 +2,7 @@
  * Author:    Luis Nesi
  * Created:   04.04.2019
  **/
- 
+
 // @flow
 
 import { Base64 } from "js-base64";
@@ -160,15 +160,14 @@ export default class {
   }
 
   info(primaryMessage: string, secondaryMessage: string = "") {
-    console.log("React-mpar ", primaryMessage, secondaryMessage);
+    console.log("React-mpar:", primaryMessage, secondaryMessage);
   }
 }
 
 function throwError(message) {
   try {
     console.error(
-      "%c  React-mpar ",
-      "background: #0483d8; color: #fff",
+      "React-mpar:",
       message
     );
   } catch (e) {
