@@ -1,3 +1,4 @@
+// @flow
 import ReactMPAR from './ReactMPAR';
 import dictionary from './dictionaries/development';
 

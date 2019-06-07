@@ -20,7 +20,7 @@ export default class {
     }
   }
 
-  createState(preloadedState:Object) {
+  createState(preloadedState:Object):Object {
     var state = preloadedState;
     this.document.querySelectorAll(this.classSelector).forEach(wrapper => {
       let definition = this.dictonary[wrapper.dataset.component];

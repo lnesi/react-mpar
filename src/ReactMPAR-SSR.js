@@ -1,10 +1,15 @@
+// @flow
 import { Base64 } from "js-base64";
 import React from "react";
 import ReactDOMServer from 'react-dom/server';
 import { Provider } from "react-redux";
 
 export default class {
-  constructor(classSelector, dictonary, document) {
+  classSelector:string;
+  dictonary:Object;
+  document:Object;
+  store:Object;
+  constructor(classSelector:string, dictonary:Object, document:Object) {
     this.classSelector = classSelector;
     this.dictonary = dictonary;
     this.document = document;
@@ -15,7 +20,7 @@ export default class {
     }
   }
 
-  createState(preloadedState) {
+  createState(preloadedState:Object):Object {
     var state = preloadedState;
     this.document.querySelectorAll(this.classSelector).forEach(wrapper => {
       let definition = this.dictonary[wrapper.dataset.component];
@@ -39,7 +44,7 @@ export default class {
   }
 
   /* To be implemented when we need to dispatch redux updates */
-  getStateBy(id) {
+  getStateBy(id:string) {
     let wrapper = this.getWrapperById(id);
     if (wrapper) {
       let stateEntry = {};
@@ -48,7 +53,7 @@ export default class {
     }
   }
 
-  getWrapperById(id) {
+  getWrapperById(id:string) {
     if (id) {
       let wrapper = this.document.getElementById(id);
       if (wrapper) {
@@ -63,7 +68,7 @@ export default class {
     }
   }
 
-  mount(id, callback = () => {}) {
+  mount(id:string, callback:Function = () => {}) {
     let wrapper = this.getWrapperById(id);
     if (wrapper) {
       let definition = this.dictonary[wrapper.dataset.component];
@@ -92,7 +97,7 @@ export default class {
     }
   }
 
-  render(Component, definition, wrapper, props = {}, callback = () => {}) {
+  render(Component:Object, definition:Object, wrapper:Object, props:Object = {}, callback:Function = () => {}) {
     this.info("Rendering", wrapper.id);
     let renderedString='';
     if (definition.reduxEnabled) {
@@ -133,7 +138,7 @@ export default class {
     console.timeEnd("React-mpar");
     this.info("Render finish.");
   }
-  renderStep(index = 0) {
+  renderStep(index:number = 0) {
     const element = this.document.querySelectorAll(this.classSelector)[index];
 
     this.mount(element.id, () => {
@@ -147,14 +152,14 @@ export default class {
       }
     });
   }
-  setStore(store) {
+  setStore(store:Object) {
     this.store = store;
     this.store.dispatch({ type: "REACT_REDUX_MPA_RENDER_SET_STORE" });
   }
 
 
 
-  info(primaryMessage, secondaryMessage = "") {
+  info(primaryMessage:string, secondaryMessage:string = "") {
     console.log(
       "%c React-mpar " +
         "%c " +
