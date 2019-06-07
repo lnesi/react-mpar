@@ -292,7 +292,7 @@ yarn demo:dev:ssr
 npm run demo:dev:ssr
 ```
 
-*Athor:* [Luis E. Nesi M.](luis.nesi@ibm.com)
+*Athor:* [Luis E. Nesi M.](https://lnesi.github.io)
 
 ---
 

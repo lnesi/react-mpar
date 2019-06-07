@@ -9,7 +9,8 @@
     "dev": "webpack-dev-server --config ./webpack-dev.config.js --mode development",
     "demo:dev:ssr": "nodemon ./demo/index.js",
     "demo:build": "webpack --config ./webpack-example.config.js --mode production ",
-    "demo:build:ssr": "webpack --config ./webpack-example-ssr.config.js --mode production "
+    "demo:build:ssr": "webpack --config ./webpack-example-ssr.config.js --mode production ",
+    "flow": "flow"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,9 @@
     }
   ],
   "dependencies": {
+    "@babel/preset-flow": "^7.0.0",
     "express": "^4.17.1",
+    "flow-bin": "^0.100.0",
     "js-base64": "^2.5.1",
     "jsdom": "^15.1.1",
     "react": "^16.8.6",
