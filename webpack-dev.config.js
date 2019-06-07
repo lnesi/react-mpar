@@ -1,3 +1,4 @@
+//React Flow Type Checking on JS
 const FlowWebpackPlugin = require("flow-webpack-plugin");
 module.exports = {
   entry: "./src/index.js",

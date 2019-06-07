@@ -1,6 +1,6 @@
 // @flow
 import { Base64 } from "js-base64";
-import React from "react";
+import * as React from "react";
 import ReactDOMServer from "react-dom/server";
 import { Provider } from "react-redux";
 
@@ -99,7 +99,7 @@ export default class {
   }
 
   render(
-    Component: Object,
+    Component: React.ComponentType<any>,
     definition: Object,
     wrapper: Object,
     props: Object = {},
