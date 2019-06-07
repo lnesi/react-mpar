@@ -101,7 +101,7 @@ export default class {
   render(
     Component: React.ComponentType<any>,
     definition: Object,
-    wrapper: Object,
+    wrapper: HTMLElement,
     props: Object = {},
     callback: Function = () => {}
   ) {
