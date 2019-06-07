@@ -2,7 +2,7 @@
  * Author:    Luis Nesi
  * Created:   04.04.2019
  **/
- 
+
 // @flow
 import { Base64 } from "js-base64";
 import * as React from "react";
@@ -110,11 +110,11 @@ export default class {
           });
           this.info("loading module", definition.name);
         } else {
-          this.info(
-            "Notice:",
-            "no class loader, fallback to preloaded class for " +
-              definition.name
-          );
+          // this.info(
+          //   "Notice:",
+          //   "no class loader, fallback to preloaded class for " +
+          //     definition.name
+          // );
           if (wrapper.dataset.rendered === "true") {
             this.info("component already rendered", definition.name);
             this.hydratate(
