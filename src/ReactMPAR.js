@@ -90,7 +90,18 @@ export default class {
         }
         if (definition.classLoader !== undefined) {
           definition.classLoader().then(result => {
-            this.render(result.default, definition, wrapper, props, callback);
+            if (wrapper.dataset.rendered === "true") {
+              this.info("component already rendered", definition.name);
+              this.hydratate(
+                result.default,
+                definition,
+                wrapper,
+                props,
+                callback
+              );
+            } else {
+              this.render(result.default, definition, wrapper, props, callback);
+            }
           });
           this.info("loading module", definition.name);
         } else {
@@ -99,7 +110,18 @@ export default class {
             "no class loader, fallback to preloaded class for " +
               definition.name
           );
-          this.render(definition.class, definition, wrapper, props, callback);
+          if (wrapper.dataset.rendered === "true") {
+            this.info("component already rendered", definition.name);
+            this.hydratate(
+              definition.class,
+              definition,
+              wrapper,
+              props,
+              callback
+            );
+          } else {
+            this.render(definition.class, definition, wrapper, props, callback);
+          }
         }
       } else {
         throwError(
@@ -127,6 +149,33 @@ export default class {
       );
     } else {
       ReactDOM.render(
+        <React.Fragment>
+          <Component id={wrapper.id} {...props} />
+        </React.Fragment>,
+        wrapper,
+        callback
+      );
+    }
+  }
+
+  hydratate(
+    Component: React.ComponentType<any>,
+    definition: Object,
+    wrapper: HTMLElement,
+    props: Object = {},
+    callback: Function = () => {}
+  ) {
+    this.info("Hyratating", wrapper.id);
+    if (definition.reduxEnabled) {
+      ReactDOM.hydrate(
+        <Provider store={this.store}>
+          <Component id={wrapper.id} {...props} />
+        </Provider>,
+        wrapper,
+        callback
+      );
+    } else {
+      ReactDOM.hydrate(
         <React.Fragment>
           <Component id={wrapper.id} {...props} />
         </React.Fragment>,

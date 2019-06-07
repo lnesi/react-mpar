@@ -77,19 +77,7 @@ export default class {
         if (wrapper.dataset.props) {
           props = JSON.parse(Base64.decode(wrapper.dataset.props));
         }
-        if (definition.classLoader !== undefined) {
-          definition.classLoader().then(result => {
-            this.render(result.default, definition, wrapper, props, callback);
-          });
-          this.info("loading module", definition.name);
-        } else {
-          this.info(
-            "Notice:",
-            "no class loader, fallback to preloaded class for " +
-              definition.name
-          );
-          this.render(definition.class, definition, wrapper, props, callback);
-        }
+        this.render(definition.class, definition, wrapper, props, callback);
       } else {
         throwError(
           "Invalid component. Could not find '" + wrapper.dataset.component
@@ -121,6 +109,7 @@ export default class {
       );
     }
     wrapper.innerHTML = renderedString;
+    wrapper.dataset.rendered = "true";
     callback();
   }
 
@@ -165,17 +154,7 @@ export default class {
   }
 
   info(primaryMessage: string, secondaryMessage: string = "") {
-    console.log(
-      "%c React-mpar " +
-        "%c " +
-        primaryMessage +
-        " " +
-        "%c " +
-        secondaryMessage,
-      "background: blue;color:white;",
-      "font-weight: bold;",
-      ""
-    );
+    console.log("React-mpar ", primaryMessage, secondaryMessage);
   }
 }
 
