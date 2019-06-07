@@ -1,6 +1,6 @@
 {
   "name": "react-mpar",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "React MRR: ReactMultipage React Render",
   "main": "dist/index.js",
   "scripts": {
