@@ -165,7 +165,9 @@ In addition to the most important property class/classLoader, there are other ma
 
 These two properties are not used directly at runtime, however, can be used to pass to a wrapper only available within the editor env of the CMS or Web platform.
 
-- **reduxEnabled (bool)** determine if redux is enabled to the component, if true this will wrap the instance of the rendered component with the react-redux Provider component and pass the React-MPAR previously set store. **Important:** Please be aware that only 1 instance of each component can be added to the page if redux is enabled unless you do your own centralize state implementation or you can share the same root level entry for all the instance of the component on the page.
+- **reduxEnabled (bool)** determine if redux is enabled to the component, if true this will wrap the instance of the rendered component with the react-redux Provider component and pass the React-MPAR previously set store.
+
+**Important: Please be aware that only 1 instance of each component can be added to the page if redux is enabled unless you do your own centralize state implementation or you can share the same root level entry for all the instance of the component on the page.**
 
 - **createState (bool)** determines if an initial state has to be created. If true React-MPAR will decode data-state attribute and create an entry into the state with the component name. If this createState is true reduxEnables needs to also be true but not mandatory you can have createState false with reduxEnable true if there is no need for an initial state. Example:
 ```
