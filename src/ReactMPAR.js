@@ -34,8 +34,8 @@ export default class {
           let initialState = {};
           initialState = JSON.parse(Base64.decode(wrapper.dataset.state));
           if (!state[wrapper.dataset.component])
-            state[wrapper.dataset.component] = {};
-          state[wrapper.dataset.component][wrapper.id] = initialState;
+            state[wrapper.dataset.component] = initialState;
+          //state[wrapper.dataset.component][wrapper.id] 
         }
       } else {
         throwError(
