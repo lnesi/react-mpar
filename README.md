@@ -8,23 +8,85 @@ A very common problem in modern frontend development with react is how to achiev
 A very common approach to bringing a solution to this problem is [web components](https://www.webcomponents.org/). In a nutshell, web components leverage custom XHTML tags in order to generate micro frontend applications that enhance the standard capabilities of a site with "custom reusable smart/complex components". Is important to clarify that the reusability and complexity aspects of these components may depend on backend services to be put in place so these will not be straight forward that you may expect, however, will enable the inclusion of modern frontend frameworks like react and all its ecosystem/community.
 
 ## How to Use?
-**Install:**
+#### Install
 ```
 npm install react-mpar --save
 ```
 
-**Basic Entry Point**
-```js
-const reactMPAR= new ReactMPAR(
-    ".mpar-controller-class",
-    dictionary,
-    document
-);
-let preloadedState = reactMPAR.createState({});
-const store = createStore(preloadedState);
-reactMPAR.setStore(store);
-reactMPAR.renderAll();
+#### Demo usage
 ```
+import ReactMPAR from 'react-mpar';
+
+import TestComponent from './TestComponent';
+
+const dictionary = {
+    TestComponent: {
+        class: TestComponent,
+        name: "Test React Component",
+        description: "This is a standalone react component can be either a single funcitonal component or a complete SPA",
+        reduxEnabled: false,
+        createState: false,
+    },
+};
+
+const renderer=new ReactMPAR(".mpar-controller-class",dictionary,document);
+
+renderer.renderAll();
+
+```
+
+#### Build React MPAR Library.
+
+This will allow the library to be built and share in other projects has package.json module.
+
+```
+yarn build
+[or]
+npm run build
+```
+
+#### Start development React MPAR.
+
+For local development you can start a webpack dev server which will use the index.js entry point with the development dictonary. The server will become available at http://localhost:8080
+
+```
+yarn dev
+[or]
+npm run dev
+```
+
+#### Build Demo front end
+
+Including with the source code of React-MPAR there is a demo implementation. You can build the front end artifact to then import in your own CMS. The most important here is to give a high-level idea on how to use webpack and the concepts of bundles. This Script will build inside the demo folder into the static folder. The demo folder acts as a demo web server of an alien CMS or Web platform.
+```
+yarn demo:build
+[or]
+npm run demo:dev
+```
+
+#### Build Demo front end SSR
+
+Including with the source code of React-MPAR there is a demo implementation. You can build the front end artifact for SSR in the demo folder. This will generate a node.js module that can then be imported into the express server to execute server-side rendering. Important: This is a demo of an alternative approach for SSR with proxy, where traditional SSR cannot be achieved due to the fact that the glass is not own by react or node.js
+
+Is important to keep in mind this is POC on proxy SSR with express. The idea is to enable rendering before the cache layer on the web platform. This code has to be refactor and expanded upon implementation and use cases. Once start you can review a demo at http://localhost:8081/index.html
+
+```
+yarn demo:build:ssr
+[or]
+npm run demo:build:ssr
+```
+
+#### Start development server for ssr demo.
+
+Including with the source code of React-MPAR there is a demo implementation you can run a demo express implementation for server-side rendering with JSDOM. This is potentially useful to solutioning and alternative for SSR that sits in between the CMS or Web Platform and the CDN or presentation cache.
+```
+yarn demo:dev:ssr
+[or]
+npm run demo:dev:ssr
+```
+
+
+
 ## How it works?
 In order to understand how React-MPAR works please consider the following graph.
 
@@ -77,7 +139,7 @@ Let us consider the following HTML markup and make the assumption has been gener
 ```
 In the above markup we need to focus our attention on the following elements:
 
-**a. HTML Target Element:** The HTML Div element with the class on it ".mpar-controller-class". This element is what we are going to reference as the target element. The controller class in this example is "mpar-controller-class". On React-MPAR this class is the first argument when constructing the renderer. The name of this class can be defined by the developer and is tied to the strategy of bundles and code splits.
+**a. HTML Target Element:** The HTML Div elements with the class on it ".mpar-controller-class". These elements are what we are going to reference as the target elements. The controller class in this example is "mpar-controller-class". On React-MPAR this class is the first argument when constructing the renderer. The name of this class can be defined by the developer and is tied to the strategy of bundles and code splits.
 
 ```
 const renderer=new ReactMPAR(".mpar-controller-class",dictionary,document);
@@ -86,13 +148,13 @@ Lets keep the focus on this HTML element:
 
 **b. Data Attribute component:** `data-component="TestComponent` the following HTML attribute is must likely the must important attribnute to be defined and will instruct React-MPAR what component inside the dictionary provided to the renderer has to be mount in the target element.
 
-**Attention:exclamation:** if the component is not present in the dictionary React-MPAR will throw an error failing to initialize, something that we always need to keep in mind is that we cannot roll off backend components without the frontend counterpart.
+**Attention:exclamation:** if the component is not present in the dictionary React-MPAR will throw an error failing to initialize. Something that we always need to keep in mind is that we cannot roll off backend components without the frontend counterpart.
 
 **c.Data Attribute Props:** `data-props="e2NvbG9yPScjY2NjJ30="` the following HTML attribute is the second key aspect of React-MPAR. So far we understand how we instruct what component we need to render with component attribute now we need to provide to react what content exactly we need to render inside the desired component. To achieve this we will use data-props which contains all the necessary props for the initial render of the component.
 
 You may notice that the content of this attribute may look a bit strange this is because what we are looking at is a base64 encoded string serialized JSON object to avoid escaping issues between languages (HTML and JS). If we were to decode the string *e2NvbG9yPScjY2NjJ30=* the result will be:`{color:'#ccc'}`.  Also, consider that the JSON object may include HTML rich output that needs to pass through react for enabling CMS experiences.
 
-This JSON Object,  **"the contract"**, is what we are going to use to communicate data from the backend platform to the frontend renderer. In other words, this is the payload from HTML to JS.
+This JSON Object,  **"the contract"**, is what we are going to use to communicate data from the backend platform to the frontend renderer. In other words, this is the payload from HTML to ReactJS.
 
 An important aspect of the data-props attribute is that it can be generated by any backend means possible. From hardcoded elements to a more complex approach where is generated by the results of CMSs or web platforms configurations forms within the page template, page model or any other widget/content-slot/content-block or even any other means provided by the backend platform.
 
@@ -108,32 +170,32 @@ We can initialize our store with an initial state and the data attribute is aimi
 
 Now that we understand the key elements from the HTML markup, let us go back to the render process. In the step (3.2) of the above graph, we waited for our app bundle/lib to get downloaded and initialized. Once our Bundle/lib entry point gets initialized and JS starts to be executed by the browser, the first step that gets executed is `ReactMPAR.createState`. **optional**. This method will merge a preloaded state to be pass as a parameter to React-MPAR, with the ones from the components to be rendered.
 
-To achieve the above, React MPAR search the target dom (6 and 7 on Graph) for any element with the controller class and extract the data-state attribute, to then decode it and merge to the preloaded state object to return a single JSON object that has all the preloaded states of the different components of the page. Once we have the initial state from the process above we then create a centralized Redux store using standard redux procedures. This store then gets passed to the instance of Redux enabled components that drive our application with the method `setStore`. You can know more at React-MPAR and redux enable components at the dictionaries documentation.
+To achieve the above, React-MPAR searches the target dom for any element with the controller class and extract the data-state attribute, to then decode it and merge to the preloaded state object to return a single JSON object that has all the preloaded states of the different components of the page. Once we have the initial state from the process above we then create a centralized Redux store using standard redux procedures. This store then gets passed to the instance of Redux enabled components that drive our application with the method `setStore`. You can know more at React-MPAR and redux enable components at the dictionaries documentation.
 
-Up to this point, redux is already setup and we have our centralized store ready to go. The next step of the render process is to actually Mount the components in the **target element**. To achieve this, React MPAR  will loop through each of the elements based on the controller class and matching the data-component attribute to the dictionary. Then the renderer will mount each of the components in the target div, passing the decoded props and the global store if the component that is being rendered has redux enabled. (step 8 in Graph 3).
-
+Up to this point, redux is already configure and we have our centralized store ready to go. The next step of the render process is to actually Mount the components in the **target element**. To achieve this, React-MPAR will loop through each of the elements for a second pass based on the controller class and matching the data-component attribute to the dictionary. Then the renderer will mount each of the components in the target div, passing the decoded props and the global store if the component that is being rendered has redux enabled.
 
 
 ## Documentation
 #### Controller Class
-A controller class is a css class name that will be added to all the html element (ideally divs)  elements into the HTML page/dom that will then be scanned by React-MPAR to then treat them has a target element.
+A controller class is a CSS class name that will be added to all the HTML elements (ideally divs)  that will become target divs. In other words, this is the CS for the query selector that will index all the target elements.
 
 #### Target Element
-A target element is HTML element (ideally divs) which has the following attributes:
+A target element is an HTML element which has the following attributes:
+
 **Mandatory**
-- **id**: a CMS or web platform generated unique id in the dom. HAS TO BE UNIQUE not 2 elements in the same dom can have the same id.
-- **class:** the controller class which makes the HTML element into a React-MPAR target element. An additionals classes can be added for CSS presentation.
-- **data-component**: Component name to be mounted. This one has to exist into the root props of the dictionary object.
+- **id**: a CMS or web platform generated unique id in the current dom. **HAS TO BE UNIQUE** not 2 elements in the same dom can have the same id.
+- **class:** the controller class which makes the HTML element into a React-MPAR target element. An additionals classes can be added for CSS presentation or printed version styles.
+- **data-component**: Component name to be mounted. This one has to exist into the root props of the dictionary object. By convention, this should be the component "Class Name or Function Name" in camel case.
 - **data-props**: This is the initial props from the CMS or Web Platform, is a base64 encoded string of a serialized JSON object that will contain the initial payload of props that will get passed to the component for rendering. This props is mandatory at least with an empty object `'{}' //ENCODED-> 'e30='`
 
 **Optional**
 
 - **data-state:** Only required if a state is required to be passed from backend and the createState is set to true in the dictionary. Same has props this is a base64 encoded string of a serialized JSON object that will contain the initial payload to be used as an initial preloaded state very useful to pass backend driven sessions data.
 
-#### Dictonaries
+#### Dictionaries
 A dictionary is a list of components available to the React-MPAR rendered that can be mount into a page into the target element. The dictionary is defined as a static JS object where each of the root properties will be the name of the component to be used into the data-component attribute.
 
-There are 2 main types of components sync components which are imported to the dictionary as a normal ES6 import and will be bundled together into the bundle/lib entry point of the webpack build process. The other type will are async components, this will leverage the [webpack dynamic import](https://webpack.js.org/guides/code-splitting#dynamic-imports) functionality to auto-split this component into a separated chunk so this js/css asset is only loaded if the component has to be rendered into the page.
+There are 2 main types of components sync components which are imported to the dictionary as a normal ES6 import and will be bundled together into the bundle/lib entry point of the webpack build process. The other type are async components, these will leverage the [webpack dynamic import](https://webpack.js.org/guides/code-splitting#dynamic-imports) functionality to be auto-splited into a separated chunk so this js/css asset is only loaded if the component has to be rendered into the page.
 
 You can differentiate these 2 types of components in the below example of a dictionary where the sync component uses the class property and the component creator class/function for react is mapped directly to it. In the other hand for async components, the **import** function is mapped to the property classLoader.
 
@@ -173,19 +235,17 @@ These two properties are not used directly at runtime, however, can be used to p
 
 - **reduxEnabled (bool)** determine if redux is enabled to the component, if true this will wrap the instance of the rendered component with the react-redux Provider component and pass the React-MPAR previously set store.
 
-**Important: Please be aware that only 1 instance of each component can be added to the page if redux is enabled unless you do your own centralize state implementation or you can share the same root level entry for all the instance of the component on the page.**
+- **createState (bool)** determines if an initial state has to be created. If true React-MPAR will decode data-state attribute and create an entry into the state with the component name. If this createState is true reduxEnables needs to also be true but not mandatory you can have createState false with reduxEnable true if there is no need for an initial state.
 
-- **createState (bool)** determines if an initial state has to be created. If true React-MPAR will decode data-state attribute and create an entry into the state with the component name. If this createState is true reduxEnables needs to also be true but not mandatory you can have createState false with reduxEnable true if there is no need for an initial state. Example:
+Example:
 ```
 {
     TestComponent: {...DECODED_JSON_STATE}
 }
 ```
+**Important:**  Please be aware that only 1 instance of each component can be added to the page if redux is enabled for that component unless you do your own centralize state implementation or you can share the same root level entry for all the instance of the component on the page.
 
-#### Bundles/libraries
-A bundle or a library is going to be the entry point of our React-MPAR application for a collection of components defined on a specific dictionary. On the principles of React-MPAR a Multipage site/app can include has many bundles or libraries are required with multiple or single centralized states or stores. Is up to the developer to define what a bundle and what components are going to be present in its correspondent dictionary; but most importantly how they interact between each other via the redux centralized store.
-
-React-MPAR example provides a demo of webpack pipeline `webpack-example.config.js` which uses 1 single bundle and shows a high-level process on how to build the front end artifacts. These artifacts have to be integrated manually has explained earlier in this document using the CMS or Web platform correspondent method (module, clientlibs, etc).
+**RoadMap Note: ** We can enable redux multiple components by adding an array to every entry with an index like drupal revisions, then add the index to the root component inside a context from a component wrapper to be shared across the app at any level.
 
 ## Centralize Store and redux
 
@@ -199,6 +259,10 @@ Like we can see on the image each component can connect to the store and dispatc
 
 Please take into consideration that the usage of Redux is just a recommended approach but is not a mandatory solution, any centralized state library like Mobx can be also implemented but will require a new React-MPAR fork to be refactor.
 
+#### Bundles/libraries
+A bundle or a library is going to be the entry point of our React-MPAR application for a collection of components defined on a specific dictionary. On the principles of React-MPAR a Multipage site/app can include has many bundles or libraries are required with multiple or single centralized states or stores. Is up to the developer to define what a bundle and what components are going to be present in its correspondent dictionary; but most importantly how they interact between each other via the redux centralized store.
+
+React-MPAR example provides a demo of webpack pipeline `webpack-example.config.js` which uses 1 single bundle and shows a high-level process on how to build the frontend artifacts. These artifacts have to be integrated manually has explained earlier in this document using the CMS or Web platform correspondent method (module, clientlibs, etc).
 
 ## DevOps and Integrations
 React MPAR is designed to integrate seamlessly with any standard react template or accelerator like [Facebook Create React App](https://facebook.github.io/create-react-app/docs/getting-started). This applications template leverage webpack engine for transpiling JSX and bundling (js/css) artifacts that can be then deployed into your website via any applicable  method depending on the use case; like static CDN, external libraries ([Drupal](https://www.drupal.org/docs/8/theming/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-theme)/[Wordpress](https://developer.wordpress.org/themes/basics/including-css-javascript/)), [clientlibs](http://blogs.adobe.com/experiencedelivers/experience-management/clientlibs-explained-example/) (AEM), Commerce Platforms like [Magento](https://devdocs.magento.com/guides/v2.3/javascript-dev-guide/javascript/custom_js.html)  etc.
@@ -212,27 +276,6 @@ In summary, any CMS or web platform can be integrated via their own ways of work
 ##### Webpack Common Chunks (Split C)
 ##### SSR workaround with JSDOM
 
-## Demo usage
-```
-import ReactMPAR from 'react-mpar';
-
-import TestComponent from './TestComponent';
-
-const dictionary = {
-    TestComponent: {
-        class: TestComponent,
-        name: "Test React Component",
-        description: "This is a standalone react component can be either a single funcitonal component or a complete SPA",
-        reduxEnabled: false,
-        createState: false,
-    },
-};
-
-const renderer=new ReactMPAR(".mpar-controller-class",dictionary,document);
-
-renderer.renderAll();
-
-```
 ## SSR Considerations
 Traditional [React SSR](https://reactjs.org/docs/react-dom-server.html), requires several Architecture components based in JavaScript and node.js that will potentially compete or are not compatible with traditional CMS or Web platform server-side rendering especially where the tech stacks of these ones are from other ecosystems like Java,PHP, etc. Arguably there are 2 approaches to workaround this issue.
 
@@ -244,65 +287,13 @@ You can find a demo of this approach in this repo by executing and understanding
 
 Please take close attention to the entry point for SSR and the dictionary for this one. As you can see there is not an implementation of isomorphic principles with the entry point, due to the fact that the dictionaries and how to handle state will be completely different at the server. One of this things is that all the components have to be preloaded into the dictionary so do not use classLoader in server-side rendering due to the fact that JSDOM will not allow the fetch of additional assets out of the box. In other hands redux and any other way of fetching data from APIs at componentDidMount has to be handled manually in server-side rendering or the webpack pipeline has to consider servers root and public path differently from the build for front end rendering.
 
-Last but not least this approach is not isomorphic out od the box because once the page has been load React-MPAR will still execute traditional react-dom render which will re-render all components in place again with a potential flick effect. This can be workaround by modifying React-MPAR to use [react-dom hydrate](https://reactjs.org/docs/react-dom.html#hydrate) instead of render. Please be aware that hydrate will assume that react has done the render previously at the server.
-
 ---
 
-## Documentation
-
-### Build React MPAR Library.
-
-This will allow the library to be buildt and share in other projects has package.json module.
-
-```
-yarn build
-[or]
-npm run build
-```
-
-### Start development React MPAR.
-
-For local development you can start a webpack dev server which will use the index.js entry point with the development dictonary. The server will become available at http://localhost:8080
-
-```
-yarn dev
-[or]
-npm run dev
-```
-
-### Build Demo front end
-
-Including with the source code of React-MPAR there is a demo implementation. You can build the front end artifact to then import in your own CMS. The must important here is to give a high level idea on how to use webpack and the concepts of bundles. This Script will build inside the demo folder into the static folder. The demo folder acts has a demo web server of an alien CMS or Web platform.
-```
-yarn demo:build
-[or]
-npm run demo:dev
-```
-
-### Build Demo front end SSR
-
-Including with the source code of React-MPAR there is a demo implementation. You can build the front end artifact for SSR in the demo folder. This will generate a node.js module that can then be imported into the express server to execute server side rendering. Important: This is a demo of an alternative approach for SSR with proxy, where traditional SSR cannot be achieve due to the fact that the glass is not own by react or node.js
-
-Is important to keep in mind this is POC on proxy SSR with express. The idea is to enable rendering before the cache layer on the web platform. This code has to be refactor and expanded upon implementation and use cases. Once start you can review a demo at http://localhost:8081/index.html
-
-```
-yarn demo:build:ssr
-[or]
-npm run demo:build:ssr
-```
-
-### Start development server for ssr demo.
-
-Including with the source code of React-MPAR there is a demo implementation you can run a demo express implementation for server side rendering with JSDOM. This is potentially usefull to solutioning and alternative for SSR that sits in between the CMS or Web Platform and the CDN or presentation cache.
-```
-yarn demo:dev:ssr
-[or]
-npm run demo:dev:ssr
-```
 
 *Athor:* [Luis E. Nesi M.](https://lnesi.github.io)
 
 ---
+
 
 ## Reference
 
@@ -332,6 +323,3 @@ K-->M
 M-->L[Dispatch Complete]
 L-->O[END]
 ```
-
-## RoadMap
-- We can enable redux multiple components by adding an array to every entry with an index like drupal revisions, then add the index to the root component inside a context to be share across the app at any level.
