@@ -307,18 +307,18 @@ graph TD
 A[Browser] -->|1. Get Request /page.html| B[Alien server]
 B-->  C(Render Template and gather assets to serve)
 C-->|2,5 Serve content and Assets| A
-A-->|3.1 HTML Dom loaded| X(Browser to parse HTML patyload)
+A-->|3.1 HTML Dom loaded| X(Browser to parse HTML payload)
 A-->|3.2 JS Execution starts|D[react-mpar]
 D-->E(Iterate on HTML with .control-class to search for data-component)
 A -->|4. Additional Assets Get requested|B
 E-->|First Pass: Gather States|F{Crate State?}
 F-->|No| H[Skip]
-G-->|Nextr Component|E
+G-->|Next Component|E
 G-->|All Done|P[Create Redux Store]
 P-->E
 F-->|Yes|G[Gather data-state and add to initial state]
 E-->|Second Pass: Render|J{Redux Enable?}
-J-->|Yes|K[Wrapp in Redux Provider]
+J-->|Yes|K[Wrap in Redux Provider]
 J-->|No|M[Mount Component]
 M-->|Next Component|E
 K-->M
