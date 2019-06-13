@@ -85,7 +85,7 @@ yarn demo:dev:ssr
 npm run demo:dev:ssr
 ```
 
-
+---
 
 ## How it works?
 In order to understand how React-MPAR works please consider the following graph.
@@ -269,12 +269,7 @@ React MPAR is designed to integrate seamlessly with any standard react template 
 
 In summary, any CMS or web platform can be integrated via their own ways of working around the inclusion of external/custom JS/CSS. Please note that if this seems complex, static CDN can always be an option has long the root paths and services targets are handle correctly during the webpack build process.
 
-[TODO]
-#### Webpack considerations
-##### Entry Points (Split A)
-##### Dynamic Imports Chunks (Split B)
-##### Webpack Common Chunks (Split C)
-##### SSR workaround with JSDOM
+
 
 ## SSR Considerations
 Traditional [React SSR](https://reactjs.org/docs/react-dom-server.html), requires several Architecture components based in JavaScript and node.js that will potentially compete or are not compatible with traditional CMS or Web platform server-side rendering especially where the tech stacks of these ones are from other ecosystems like Java,PHP, etc. Arguably there are 2 approaches to workaround this issue.
@@ -287,7 +282,7 @@ You can find a demo of this approach in this repo by executing and understanding
 
 Please take close attention to the entry point for SSR and the dictionary for this one. As you can see there is not an implementation of isomorphic principles with the entry point, due to the fact that the dictionaries and how to handle state will be completely different at the server. One of this things is that all the components have to be preloaded into the dictionary so do not use classLoader in server-side rendering due to the fact that JSDOM will not allow the fetch of additional assets out of the box. In other hands redux and any other way of fetching data from APIs at componentDidMount has to be handled manually in server-side rendering or the webpack pipeline has to consider servers root and public path differently from the build for front end rendering.
 
----
+
 
 
 *Athor:* [Luis E. Nesi M.](https://lnesi.github.io)
@@ -296,6 +291,13 @@ Please take close attention to the entry point for SSR and the dictionary for th
 
 
 ## Reference
+
+[TODO]
+- Webpack considerations
+- Entry Points (Split A)
+- Dynamic Imports Chunks (Split B)
+- Webpack Common Chunks (Split C)
+- SSR workaround with JSDOM
 
 ### Graph Code
 The following code is meant to be use with [mermaid-live-editor](https://mermaidjs.github.io/mermaid-live-editor)
