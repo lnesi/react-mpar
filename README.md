@@ -245,7 +245,7 @@ Example:
 ```
 **Important:**  Please be aware that only 1 instance of each component can be added to the page if redux is enabled for that component unless you do your own centralize state implementation or you can share the same root level entry for all the instance of the component on the page.
 
-**RoadMap Note: ** We can enable redux multiple components by adding an array to every entry with an index like drupal revisions, then add the index to the root component inside a context from a component wrapper to be shared across the app at any level.
+**Roadmap Note:** We can enable redux multiple components by adding an array to every entry with an index like drupal revisions, then add the index to the root component inside a context from a component wrapper to be shared across the app at any level.
 
 ## Centralize Store and redux
 
