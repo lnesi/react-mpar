@@ -1,4 +1,6 @@
 
+TODO:
+Fix hydratated for hydrated
 
 # React MPAR: React Multipage Application Renderer
 
@@ -312,11 +314,15 @@ A-->|3.1 HTML Dom loaded| X(Browser to parse HTML patyload)
 A-->|3.2 JS Execution starts|D[react-mpar]
 D-->|6. Create Store|E(Iterate on HTML with .control-class to search for data-component)
 A -->|4. Additional Assets Get requested|B
-E-->F{Found in Dictonary}
+E-->|FirstPass|F{Crate State?}
 F-->|Yes| G[Gather data-state and add to initial state]
-G-->|Complete all components|H[ Create centralized Redux store]
-H-->|7. Initialize Render process|D
-D-->|8. Render Starts |E
-F-->|Yes|K[Mount Component In target HTML Element]
-K-->L[END]
+F-->|No|H(Skip)
+G-->|Nextr Component|E
+E-->|Second Pass|J{Redux Enable?}
+J-->|Yes|K[Wrapp in Redux Provider]
+J-->|No|M[Mount Component]
+M-->|Next Component|E
+K-->M
+M-->L[Dispatch Complete]
+L-->O[END]
 ```
