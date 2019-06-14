@@ -342,6 +342,7 @@ D-->E(Iterate on HTML with .control-class to search for data-component)
 A -->|4. Additional Assets Get requested|B
 E-->|First Pass: Gather States|F{Crate State?}
 F-->|No| H[Skip]
+H-.->E
 G-->|Next Component|E
 G-->|All Done|P[Create Redux Store]
 P-->E
