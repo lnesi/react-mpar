@@ -18,13 +18,17 @@ export default class {
     this.classSelector = classSelector;
     this.dictonary = dictonary;
     this.document = document;
-    if (this.document.react_mpar) {
-      this.document.react_mpar.push(this);
-    } else {
-      this.document.react_mpar = [this];
+    if (!this.document.ReactMPAR) {
+        this.document.ReactMPAR = {};
     }
+    ;
+    this.document.ReactMPAR[this.getClassEntryName(classSelector)]=this;
   }
 
+  getClassEntryName(name:string){
+    let sanitizeName=name.replace(".", '');
+    return sanitizeName.replace(/-/g, "_");
+  }
   createState(preloadedState: Object): Object {
     var state = preloadedState;
     this.document.querySelectorAll(this.classSelector).forEach(wrapper => {
@@ -35,7 +39,7 @@ export default class {
           initialState = JSON.parse(Base64.decode(wrapper.dataset.state));
           if (!state[wrapper.dataset.component])
             state[wrapper.dataset.component] = initialState;
-          //state[wrapper.dataset.component][wrapper.id] 
+          //state[wrapper.dataset.component][wrapper.id]
         }
       } else {
         throwError(
