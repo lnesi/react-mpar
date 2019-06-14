@@ -176,8 +176,32 @@ Up to this point, redux is already configure and we have our centralized store r
 
 
 ## Documentation
+
 #### Controller Class
-A controller class is a CSS class name that will be added to all the HTML elements (ideally divs)  that will become target divs. In other words, this is the CS for the query selector that will index all the target elements.
+A controller class is a CSS class name that will be added to all the HTML elements (ideally divs)  that will become target divs. In other words, this is the CS for the query selector that will index all the target elements.  The must important aspects of React-MPAR is that only 1 instance of React-MPAR can be in a given DOM with a specific controller class if multiple instance of React-MPAR are required on the same page different controller classes has to be used.
+
+As a convention the controller class has to be:
+- A CSS Class starting with .
+- Be compatible with JS object properties names. Avoid "-"
+
+The controller class will also be used in a JS sanitized approach to inject ReactMPAR instance render to the document under document.ReactMPAR.
+
+Example:
+```
+controllerClass="test-controller-class"
+```
+Will expose the renderer under.
+```
+document.ReactMPAR.test_controller_class
+```
+
+The Renderer will expose the following public functions that can be called at any given time upon requirement.
+
+- **getStateBy(id: string)** Returns the decoded state payload by target element ID
+- **unmount(id: string)** Unmounts the react component from target element by ID
+- **mount(id: string)** Mounts the react component from target element by ID
+- **resetById(id: string)** Unmounts and then Mounts the react component from target element by ID
+
 
 #### Target Element
 A target element is an HTML element which has the following attributes:
@@ -259,6 +283,11 @@ Like we can see on the image each component can connect to the store and dispatc
 
 Please take into consideration that the usage of Redux is just a recommended approach but is not a mandatory solution, any centralized state library like Mobx can be also implemented but will require a new React-MPAR fork to be refactor.
 
+The redux store will be expose to the dom to use outside react under:
+```
+document.ReactMPAR[{SANITIZED_CONTROLLER_CLASS}].store
+```
+For more information on redux store please visit [redux documentation.](https://redux.js.org/api/store)
 #### Bundles/libraries
 A bundle or a library is going to be the entry point of our React-MPAR application for a collection of components defined on a specific dictionary. On the principles of React-MPAR a Multipage site/app can include has many bundles or libraries are required with multiple or single centralized states or stores. Is up to the developer to define what a bundle and what components are going to be present in its correspondent dictionary; but most importantly how they interact between each other via the redux centralized store.
 
